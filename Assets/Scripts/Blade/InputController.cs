@@ -20,6 +20,10 @@ public class InputController : MonoBehaviour
     private void ReadMovement()
     {
        var input = _gameInput.Gameplay.Movement.ReadValue<Vector2>();
-       Direction = new Vector3(input.x, 0, input.y);
+       
+       if (!Mathf.Approximately(Mathf.Abs(input.x), Mathf.Abs(input.y)))
+           Direction = new Vector3(input.x, 0, input.y);
+       else
+           Direction = Vector3.zero;
     }
 }

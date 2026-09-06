@@ -9,7 +9,5 @@ public class CollisionHandler : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Grass grass))
             GrassDetected?.Invoke(grass);
-        
-        Debug.Log(collision.gameObject.name);
     }
 }
