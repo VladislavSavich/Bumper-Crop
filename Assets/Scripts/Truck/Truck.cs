@@ -6,7 +6,7 @@ public class Truck : MonoBehaviour
     [SerializeField] private TruckMover _mover;
     [SerializeField] private HarvestCounter _counter;
 
-    public event Action OnTruckFull;
+    public event Action<Truck> OnTruckFull;
     public bool IsFull { get; private set; }
 
     private void Start()
@@ -17,6 +17,7 @@ public class Truck : MonoBehaviour
     
     private void OnEnable()
     {
+        _mover.MoveToStartPosition();
         _counter.OnFull += CompleteLoading;
     }
 
@@ -28,23 +29,21 @@ public class Truck : MonoBehaviour
     public void AcceptHarvest()
     {
         if (!IsFull)
-        {
             _counter.AddCount();
-            _counter.AddCount();
-            _counter.AddCount();
-            _counter.AddCount();
-            _counter.AddCount();
-        }
     }
     
-    public void Leave()
+    public void ResetCondition()
     {
-        _mover.MoveAway();
+        IsFull = false;
+        _counter.ResetCounter();
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(0, 180, 0);
     }
     
     private void CompleteLoading()
     {
         IsFull = true;
-        OnTruckFull?.Invoke();
+        _mover.MoveAway();
+        OnTruckFull?.Invoke(this);
     }
 }

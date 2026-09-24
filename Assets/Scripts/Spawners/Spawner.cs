@@ -4,8 +4,8 @@ using UnityEngine.Pool;
 public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] protected T Prefab;
-    [SerializeField] protected int PoolCapacity = 8;
-    [SerializeField] protected int PoolMaxSize = 8;
+    [SerializeField] protected int PoolCapacity = 25;
+    [SerializeField] protected int PoolMaxSize = 50;
 
     protected ObjectPool<T> Pool;
 
@@ -13,9 +13,9 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     {
         Pool = new ObjectPool<T>(
             createFunc: () => Instantiate(Prefab),
-            actionOnGet: (obj) => ActionOnGet(obj),
-            actionOnRelease: (obj) => ActionOnRelease(obj),
-            actionOnDestroy: (obj) => Destroy(obj),
+            actionOnGet: ActionOnGet,
+            actionOnRelease: ActionOnRelease,
+            actionOnDestroy: Destroy,
             collectionCheck: true,
             defaultCapacity: PoolCapacity,
             maxSize: PoolMaxSize);
@@ -33,6 +33,9 @@ public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void ReleaseObject(T obj)
     {
+        if (obj == null)
+            return;
+        
         Pool.Release(obj);
     }
 }

@@ -14,4 +14,9 @@ public class Storage : MonoBehaviour
     {
         _counter.CountChanged -= _indicator.ShowHarvests;
     }
+    
+    public void AddHarvest()
+    {
+        _counter.AddCount();
+    }
 }

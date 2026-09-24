@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Cutter : MonoBehaviour
 {
+    public event Action<Grass> GrassReadyToCut;
     public event Action GrassCuttered;
     
     public void CutGrass(Grass grass)
@@ -10,7 +11,7 @@ public class Cutter : MonoBehaviour
         if (grass == null)
             return;
         
-        Destroy(grass.gameObject);
+        GrassReadyToCut?.Invoke(grass);
         GrassCuttered?.Invoke();
     }
 }

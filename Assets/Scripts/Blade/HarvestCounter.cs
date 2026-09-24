@@ -28,7 +28,7 @@ public class HarvestCounter : MonoBehaviour
             OnFull?.Invoke();
     }
     
-    private void ResetCounter()
+    public void ResetCounter()
     {
         _count = _minValue;
         CountChanged?.Invoke(HarvestCount);
