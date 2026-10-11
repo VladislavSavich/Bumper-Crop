@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GrassSpawner : Spawner<Grass>
 {
+    [SerializeField] private ColorChanger  _colorChanger;
     [SerializeField] private Cutter _bladeCutter;
     [SerializeField] private Transform[] _grassPositions;
     [SerializeField] private float _delayValue = 3f;
@@ -17,6 +18,7 @@ public class GrassSpawner : Spawner<Grass>
         foreach (Transform pos in _grassPositions)
         {
             Grass grass = Pool.Get();
+            _colorChanger.ChangeColor(grass.gameObject);
             grass.transform.position = pos.position;
         }
     }
@@ -42,7 +44,8 @@ public class GrassSpawner : Spawner<Grass>
     {
         yield return _delay; 
         
-        Grass newGrass = Pool.Get();    
+        Grass newGrass = Pool.Get();
+        _colorChanger.ChangeColor(newGrass.gameObject);
         newGrass.transform.position = spawnPosition;
     }
 }

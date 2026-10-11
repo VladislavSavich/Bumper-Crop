@@ -320,7 +320,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 963b24a7c4a7885438948b252ad988f5, type: 2}
+  - {fileID: 2100000, guid: 70e6312e508756f46997fcbe440e523d, type: 2}
   - {fileID: 2100000, guid: 963b24a7c4a7885438948b252ad988f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -394,7 +394,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.0382433, y: 2.7723656, z: 7.676114}
+  m_Size: {x: 3.0382433, y: 2.7723656, z: 10.11}
   m_Center: {x: -0.0000019669535, y: 1.7138361, z: -1.1384106}
 --- !u!1 &6205886373231374994
 GameObject:
@@ -653,6 +653,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2013119299499945308}
     m_Modifications:
+    - target: {fileID: -8879138084085678586, guid: 7f8f0d343017c0040ac5fc3c9910e645, type: 3}
+      propertyPath: _defaultColor.b
+      value: 0.20392159
+      objectReference: {fileID: 0}
+    - target: {fileID: -8879138084085678586, guid: 7f8f0d343017c0040ac5fc3c9910e645, type: 3}
+      propertyPath: _defaultColor.g
+      value: 0.6862745
+      objectReference: {fileID: 0}
+    - target: {fileID: -8879138084085678586, guid: 7f8f0d343017c0040ac5fc3c9910e645, type: 3}
+      propertyPath: _defaultColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 210423329357524729, guid: 7f8f0d343017c0040ac5fc3c9910e645, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.6966293

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Cutter : MonoBehaviour
 {
     public event Action<Grass> GrassReadyToCut;
-    public event Action GrassCuttered;
+    public event Action<Color> GrassCuttered;
     
     public void CutGrass(Grass grass)
     {
@@ -12,6 +12,6 @@ public class Cutter : MonoBehaviour
             return;
         
         GrassReadyToCut?.Invoke(grass);
-        GrassCuttered?.Invoke();
+        GrassCuttered?.Invoke(grass.CurrentColor);
     }
 }

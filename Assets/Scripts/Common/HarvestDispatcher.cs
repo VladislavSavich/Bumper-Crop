@@ -4,10 +4,10 @@ public class HarvestDispatcher : MonoBehaviour
 {
     [SerializeField] private LoadingZone _firstLoadingZone;
     [SerializeField] private LoadingZone _secondLoadingZone;
-    [SerializeField] private Storage _groundStorage;
     [SerializeField] private HarvestCounter  _globalCounter;
     [SerializeField] private Cutter _cutter;
-    
+    [SerializeField] private StorageRegulator _regulator;
+
     private Truck _activeTruck;
     private Truck _waitingTruck;
 
@@ -25,12 +25,14 @@ public class HarvestDispatcher : MonoBehaviour
         _cutter.GrassCuttered -= ReceiveHarvest;
     }
 
-    private void ReceiveHarvest()
+    private void ReceiveHarvest(Color color)
     {
-        if (_activeTruck != null && !_activeTruck.IsFull)
+        if (_activeTruck != null && !_activeTruck.IsFull && color ==  _activeTruck.CurrentColor)
             _activeTruck.AcceptHarvest();
+        else if (_waitingTruck != null && !_waitingTruck.IsFull  && color ==  _waitingTruck.CurrentColor)
+            _waitingTruck.AcceptHarvest();
         else
-            _groundStorage.AddHarvest();
+            _regulator.DistributeHarvest(color);
         
         _globalCounter.AddCount();
     }

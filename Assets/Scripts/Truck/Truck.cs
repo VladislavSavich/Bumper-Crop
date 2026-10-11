@@ -1,14 +1,23 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class Truck : MonoBehaviour
 {
     [SerializeField] private TruckMover _mover;
     [SerializeField] private HarvestCounter _counter;
-
+    private Renderer  _renderer;
+    
     public event Action<Truck> OnTruckFull;
+    
+    public Color CurrentColor => _renderer.material.color;
     public bool IsFull { get; private set; }
 
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
+    
     private void Start()
     {
         _mover.MoveToStartPosition();
