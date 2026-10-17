@@ -14,6 +14,15 @@ public class ColorChanger : MonoBehaviour
             objectRenderer.material.color = GetRandomColor();
     }
 
+    public void ChangeColor(GameObject model, Color color)
+    {
+        if (model == null)
+            return;
+        
+        if (model.TryGetComponent(out Renderer objectRenderer))
+            objectRenderer.material.color = color;
+    }
+
     private Color GetRandomColor()
     {
         if (_colors == null || _colors.Length == 0)

@@ -17,4 +17,32 @@ public class StorageRegulator : MonoBehaviour
         else
             StoragesLoaded?.Invoke();
     }
+
+    public void TryTransferToTruck(Truck truck)
+    {
+        TransferFromStorage(_firstStorage, truck);
+        
+        if (truck.IsFull) 
+            return;
+        
+        TransferFromStorage(_secondStorage, truck);
+    }
+    
+    private void TransferFromStorage(Storage storage, Truck  truck)
+    {
+        if(storage.CurrentColor != truck.CurrentColor)
+            return;
+        
+        if(storage.HarvestCount <= 0)
+            return;
+
+        int truckSpace = truck.MaxCapacity - truck.HarvestCount;
+        int amountToTransfer = Mathf.Min(storage.HarvestCount, truckSpace);
+        
+        if (amountToTransfer > 0)
+        {
+            storage.ExtractHarvest(amountToTransfer);
+            truck.AcceptHarvest(amountToTransfer);
+        }
+    }
 }

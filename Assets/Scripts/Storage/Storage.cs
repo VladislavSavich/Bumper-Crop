@@ -6,6 +6,7 @@ public class Storage : MonoBehaviour
     [SerializeField] private HarvestIndicator _indicator;
     [SerializeField] private Color _color;
 
+    public int HarvestCount => _counter.HarvestCount;
     public bool IsLoaded => _counter.IsFull;
     public Color CurrentColor => _color;
     
@@ -22,5 +23,10 @@ public class Storage : MonoBehaviour
     public void AddHarvest()
     {
         _counter.AddCount();
+    }
+
+    public void ExtractHarvest(int value)
+    {
+        _counter.ReduceCount(value);
     }
 }

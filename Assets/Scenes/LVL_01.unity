@@ -1249,8 +1249,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.9, y: -2.54, z: 42.76}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 2, y: 2, z: 8.23}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3987,6 +3987,7 @@ GameObject:
   - component: {fileID: 1199822481}
   - component: {fileID: 1199822482}
   - component: {fileID: 1199822483}
+  - component: {fileID: 1199822484}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -4098,6 +4099,7 @@ MonoBehaviour:
   _globalCounter: {fileID: 1199822481}
   _cutter: {fileID: 6596167080040955094}
   _regulator: {fileID: 1199822483}
+  _haystackSpawner: {fileID: 1199822484}
 --- !u!114 &1199822478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4143,7 +4145,8 @@ MonoBehaviour:
   - {fileID: 1269170066}
   - {fileID: 1670129522}
   - {fileID: 1011688068}
-  _delayValue: 3
+  _minDelay: 1
+  _maxDelay: 3
 --- !u!114 &1199822479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4223,6 +4226,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _firstStorage: {fileID: 517976296}
   _secondStorage: {fileID: 787934718}
+--- !u!114 &1199822484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199822471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f430abef5b471434cbfd1671a8f4b088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prefab: {fileID: -1657444536869120352, guid: a9b86eb9e6011e74d921ddedc8a85276, type: 3}
+  PoolCapacity: 25
+  PoolMaxSize: 50
+  _colorChanger: {fileID: 1199822482}
 --- !u!43 &1215243911
 Mesh:
   m_ObjectHideFlags: 0
@@ -4825,8 +4844,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.33, y: -2.5, z: 44.41}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 2.78, y: 2.34, z: 8.23}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -12,6 +12,14 @@ public class TruckSpawner : Spawner<Truck>
     
     private WaitForSeconds _delay;
     
+    protected override void ReleaseObject(Truck truck)
+    {
+        truck.ResetCondition();
+        truck.gameObject.SetActive(false);
+        Pool.Release(truck);
+        UnsubscribeTruck(truck);
+    }
+    
     private void Start()
     {
         _delay = new WaitForSeconds(_truckDelay);
@@ -36,14 +44,6 @@ public class TruckSpawner : Spawner<Truck>
         SubscribeTruck(newTruck);
         
         newTruck.transform.position = _firstZone.IsBusy ? _secondPosition.position : _firstPosition.position;
-    }
-
-    protected override void ReleaseObject(Truck truck)
-    {
-        truck.ResetCondition();
-        truck.gameObject.SetActive(false);
-        Pool.Release(truck);
-        UnsubscribeTruck(truck);
     }
 
     private void ReleaseDelay(Truck truck)

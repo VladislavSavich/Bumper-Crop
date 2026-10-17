@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4321254109712756089}
   - component: {fileID: 4589175176214081293}
   - component: {fileID: 7253307679523983086}
+  - component: {fileID: -9138108350922524690}
   m_Layer: 0
   m_Name: Grass
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.22363138, y: 0.5494753, z: -10.04}
-  m_LocalScale: {x: 11.2, y: 11.2, z: 11.2}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,3 +120,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761bdda522015aa408090872b935781c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-9138108350922524690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7382551322422096441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9afab4cc980f924449b97c7a77455502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxsScale: {x: 11.2, y: 11.2, z: 11.2}
+  _minScale: {x: 10.5, y: 10.5, z: 10.5}
+  _growthDuration: 0.3
+  _pulseDuration: 1
+  _repeats: -1

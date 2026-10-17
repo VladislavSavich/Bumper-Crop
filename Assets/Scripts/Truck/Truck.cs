@@ -10,6 +10,8 @@ public class Truck : MonoBehaviour
     
     public event Action<Truck> OnTruckFull;
     
+    public int HarvestCount => _counter.HarvestCount;
+    public int MaxCapacity => _counter.MaxCapacity;
     public Color CurrentColor => _renderer.material.color;
     public bool IsFull { get; private set; }
 
@@ -35,10 +37,12 @@ public class Truck : MonoBehaviour
         _counter.OnFull -= CompleteLoading;
     }
 
-    public void AcceptHarvest()
+    public void AcceptHarvest(int value = 1)
     {
-        if (!IsFull)
-            _counter.AddCount();
+        if (IsFull)
+            return;
+        
+        _counter.AddCount(value);
     }
     
     public void ResetCondition()
