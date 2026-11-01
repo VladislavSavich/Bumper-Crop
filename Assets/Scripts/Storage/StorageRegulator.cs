@@ -27,7 +27,13 @@ public class StorageRegulator : MonoBehaviour
         
         TransferFromStorage(_secondStorage, truck);
     }
-    
+
+    public void ResetStorages()
+    {
+        _firstStorage.Reset();
+        _secondStorage.Reset();
+    }
+
     private void TransferFromStorage(Storage storage, Truck  truck)
     {
         if(storage.CurrentColor != truck.CurrentColor)

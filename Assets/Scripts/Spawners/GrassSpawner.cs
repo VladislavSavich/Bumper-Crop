@@ -1,24 +1,32 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GrassSpawner : Spawner<Grass>
 {
     [SerializeField] private ColorChanger  _colorChanger;
     [SerializeField] private Cutter _bladeCutter;
-    [SerializeField] private Transform[] _grassPositions;
+    [SerializeField] private GrassFinder _finder;
     [SerializeField] private float _minDelay = 1f;
     [SerializeField] private float _maxDelay = 3f;
 
     private WaitForSeconds _delay;
     private Vector3 _position;
-
+    private List<Transform> _grassTransforms;
+    
     private void Start()
     {
-        foreach (Transform pos in _grassPositions)
+        _grassTransforms = new List<Transform>();
+        _finder.CollectGrassPositions(_grassTransforms);
+
+        if (_grassTransforms.Capacity == 0) 
+            return;
+        
+        foreach (Transform grassTransform in _grassTransforms)
         {
             Grass grass = Pool.Get();
             _colorChanger.ChangeColor(grass.gameObject);
-            grass.transform.position = pos.position;
+            grass.transform.position = grassTransform.position;
         }
     }
     

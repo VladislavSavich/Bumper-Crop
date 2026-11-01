@@ -7,6 +7,7 @@ public class Blade : MonoBehaviour
     [SerializeField] private LandChecker _landChecker;
     [SerializeField] private CollisionHandler _collisionHandler;
     [SerializeField] private Cutter _cutter;
+    [SerializeField] private SoundPlayer _soundPlayer;
 
     private Vector3 _currentDirection;
 
@@ -18,11 +19,15 @@ public class Blade : MonoBehaviour
     private void OnEnable()
     {
         _collisionHandler.GrassDetected += _cutter.CutGrass;
+        _collisionHandler.GrassDetected += _soundPlayer.PlaySound;
+        _collisionHandler.BonusDetected += _soundPlayer.PlaySound;
     }
 
     private void OnDisable()
     {
         _collisionHandler.GrassDetected -= _cutter.CutGrass;
+        _collisionHandler.GrassDetected -= _soundPlayer.PlaySound;
+        _collisionHandler.BonusDetected -= _soundPlayer.PlaySound;
     }
 
     private void Update()
