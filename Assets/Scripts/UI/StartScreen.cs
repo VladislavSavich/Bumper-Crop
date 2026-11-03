@@ -4,21 +4,19 @@ public class StartScreen : Window
 {
     public event Action PlayButtonClicked;
 
-    public override void Close()
+    private void Awake()
     {
-        WindowGroup.alpha = 0f;
-        ActionButton.interactable = false;
-        WindowGroup.blocksRaycasts = false;
+        if (_actionButton != null)
+            _actionButton.onClick.AddListener(OnButtonClick);
     }
 
-    public override void Open()
+    private void OnDestroy()
     {
-        WindowGroup.alpha = 1f;
-        ActionButton.interactable = true;
-        WindowGroup.blocksRaycasts = true;
+        if (_actionButton != null)
+            _actionButton.onClick.RemoveListener(OnButtonClick);
     }
 
-    protected override void OnButtonClick()
+    private void OnButtonClick()
     {
         PlayButtonClicked?.Invoke();
     }

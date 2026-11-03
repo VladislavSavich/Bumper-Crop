@@ -13,8 +13,8 @@ public class GrassSpawner : Spawner<Grass>
     private WaitForSeconds _delay;
     private Vector3 _position;
     private List<Transform> _grassTransforms;
-    
-    private void Start()
+
+    public void SpawnGrassField(int _)
     {
         _grassTransforms = new List<Transform>();
         _finder.CollectGrassPositions(_grassTransforms);
@@ -29,7 +29,7 @@ public class GrassSpawner : Spawner<Grass>
             grass.transform.position = grassTransform.position;
         }
     }
-    
+
     private void OnEnable()
     {
         _bladeCutter.GrassReadyToCut += SpawnDelay;

@@ -6,19 +6,19 @@ public class EndGameScreen : Window
 
     public override void Close()
     {
-        WindowGroup.alpha = 0f;
-        ActionButton.interactable = false;
-        WindowGroup.blocksRaycasts = false;
+        _windowGroup.alpha = 0f;
+        _actionButton.interactable = false;
+        _windowGroup.blocksRaycasts = false;
     }
 
     public override void Open()
     {
-        WindowGroup.alpha = 1f;
-        ActionButton.interactable = true;
-        WindowGroup.blocksRaycasts = true;
+        _windowGroup.alpha = 1f;
+        _actionButton.interactable = true;
+        _windowGroup.blocksRaycasts = true;
     }
 
-    protected override void OnButtonClick()
+    private void OnButtonClick()
     {
         RestartButtonClicked?.Invoke();
     }

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class TimeSwitcher : MonoBehaviour
 {
-    private int _startTimeValue = 1;
-    private int _stopTimeValue = 0;
+    private readonly int _startTimeValue = 1;
+    private readonly int _stopTimeValue = 0;
 
     private void Start()
     {

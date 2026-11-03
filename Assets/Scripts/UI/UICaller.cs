@@ -4,50 +4,69 @@ using UnityEngine;
 public class UICaller : MonoBehaviour
 {
     [SerializeField] private StartScreen _startScreen;
-    [SerializeField] private EndGameScreen _loseScreen;
-    [SerializeField] private EndGameScreen _victoryScreen;
-
-    public event Action ButtonWasPressed;
+    [SerializeField] private LevelSelectScreen _levelSelectScreen;
+    //[SerializeField] private EndGameScreen _loseScreen;
+    //[SerializeField] private EndGameScreen _victoryScreen;
+   
+    public event Action<int> LevelWasSelected;
 
     private void OnEnable()
     {
-        _startScreen.PlayButtonClicked += OnButtonClick;
-        /*_loseScreen.RestartButtonClicked += OnButtonClick;
-        _victoryScreen.RestartButtonClicked += OnButtonClick;*/
+        if (_startScreen != null)
+            _startScreen.PlayButtonClicked += OnPlayButtonClicked;
+
+        if (_levelSelectScreen != null)
+            _levelSelectScreen.LevelSelected += OnLevelSelected;
     }
 
     private void OnDisable()
     {
-        _startScreen.PlayButtonClicked -= OnButtonClick;
-        /*_loseScreen.RestartButtonClicked -= OnButtonClick;
-        _victoryScreen.RestartButtonClicked -= OnButtonClick;*/
+        if (_startScreen != null)
+            _startScreen.PlayButtonClicked -= OnPlayButtonClicked;
+
+        if (_levelSelectScreen != null)
+            _levelSelectScreen.LevelSelected -= OnLevelSelected;
     }
 
-    public void CallStartScreen() 
+    public void CallStartScreen()
     {
-        _startScreen.Open(); 
+        _startScreen.Open();
+        CloseLevelSelect();
     }
 
-    public void CallLoseScreen() 
+    public void CallLoseScreen()
     {
-        _loseScreen.Open();
+       // _loseScreen.Open();
     }
 
-    public void CallVictoryScreen() 
+    public void CallVictoryScreen()
     {
-        _victoryScreen.Open();
+       // _victoryScreen.Open();
     }
 
-    public void CloseAllScreens() 
+    public void CloseAllScreens()
     {
         _startScreen.Close();
-        /*_loseScreen.Close();
-        _victoryScreen.Close();*/
+        CloseLevelSelect();
     }
 
-    private void OnButtonClick()
+    private void OnPlayButtonClicked()
     {
-        CloseAllScreens();
-        ButtonWasPressed?.Invoke();
+        _startScreen.Close();
+
+        if (_levelSelectScreen != null)
+            _levelSelectScreen.Open();
+    }
+
+    private void OnLevelSelected(int index)
+    {
+        CloseLevelSelect();
+        LevelWasSelected?.Invoke(index);
+    }
+
+    private void CloseLevelSelect()
+    {
+        if (_levelSelectScreen != null)
+            _levelSelectScreen.Close();
     }
 }
