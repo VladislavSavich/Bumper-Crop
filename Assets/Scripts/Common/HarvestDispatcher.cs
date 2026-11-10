@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class HarvestDispatcher : MonoBehaviour
@@ -12,11 +13,14 @@ public class HarvestDispatcher : MonoBehaviour
     private Truck _activeTruck;
     private Truck _waitingTruck;
 
+    public event Action StoragesLoaded;
+    
     private void OnEnable()
     {
         _firstLoadingZone.TruckDetected += RegisterTruck;
         _secondLoadingZone.TruckDetected += RegisterTruck;
         _cutter.GrassCuttered += ReceiveHarvest;
+        _regulator.StorageLoaded += StorageFull;
     }
 
     private void OnDisable()
@@ -24,6 +28,7 @@ public class HarvestDispatcher : MonoBehaviour
         _firstLoadingZone.TruckDetected -= RegisterTruck;
         _secondLoadingZone.TruckDetected -= RegisterTruck;
         _cutter.GrassCuttered -= ReceiveHarvest;
+        _regulator.StorageLoaded -= StorageFull;
     }
 
     private void ReceiveHarvest(Color color)
@@ -74,5 +79,10 @@ public class HarvestDispatcher : MonoBehaviour
         {
             _waitingTruck = null;
         }
+    }
+
+    private void StorageFull()
+    {
+        StoragesLoaded?.Invoke();
     }
 }

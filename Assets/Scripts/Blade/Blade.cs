@@ -29,7 +29,7 @@ public class Blade : MonoBehaviour
         _collisionHandler.GrassDetected -= _soundPlayer.PlaySound;
         _collisionHandler.BonusDetected -= _soundPlayer.PlaySound;
     }
-
+    
     private void Update()
     {
         if (_inputController.Direction != Vector3.zero && !_mover.IsMoving) 
@@ -47,5 +47,10 @@ public class Blade : MonoBehaviour
         
         _mover.StopMoving();
         _currentDirection = Vector3.zero;
+    }
+
+    public void Reset()
+    {
+        _mover.Reset();
     }
 }

@@ -12,11 +12,14 @@ public class GrassSpawner : Spawner<Grass>
 
     private WaitForSeconds _delay;
     private Vector3 _position;
-    private List<Transform> _grassTransforms;
+    private List<Transform> _grassTransforms = new List<Transform>();
+    private List<Grass> _activeGrasses = new List<Grass>();
 
-    public void SpawnGrassField(int _)
+    public void SpawnGrassField()
     {
-        _grassTransforms = new List<Transform>();
+        _grassTransforms.Clear();
+        _activeGrasses.Clear();
+        
         _finder.CollectGrassPositions(_grassTransforms);
 
         if (_grassTransforms.Capacity == 0) 
@@ -26,27 +29,47 @@ public class GrassSpawner : Spawner<Grass>
         {
             Grass grass = Pool.Get();
             _colorChanger.ChangeColor(grass.gameObject);
+            grass.gameObject.SetActive(true);
             grass.transform.position = grassTransform.position;
+            _activeGrasses.Add(grass);
         }
+    }
+
+    public void ClearAllGrass()
+    {
+        StopAllCoroutines();
+        
+        for (int i = 0; i < _activeGrasses.Count; i++)
+        {
+            Grass grass = _activeGrasses[i];
+            
+            if (grass != null)
+            {
+                ReleaseObject(grass);
+            }
+        }
+        
+        _grassTransforms.Clear();
+        _activeGrasses.Clear();
     }
 
     private void OnEnable()
     {
-        _bladeCutter.GrassReadyToCut += SpawnDelay;
-        _bladeCutter.GrassReadyToCut += ReleaseObject;
+        _bladeCutter.GrassReadyToCut += HandleGrassRelease;
     }
 
     private void OnDisable()
     {
-        _bladeCutter.GrassReadyToCut -= SpawnDelay;
-        _bladeCutter.GrassReadyToCut -= ReleaseObject;
+        _bladeCutter.GrassReadyToCut -= HandleGrassRelease;
     }
 
-    private void SpawnDelay(Grass grass)
-    { 
+    private void HandleGrassRelease(Grass grass)
+    {
+        _activeGrasses.Remove(grass);
+        ReleaseObject(grass);
         StartCoroutine(StartSpawnDelay(grass.transform.position));
     }
-
+    
     private WaitForSeconds GenerateDelay()
     {
         _delay  = new WaitForSeconds(Random.Range(_minDelay, _maxDelay));
@@ -60,6 +83,8 @@ public class GrassSpawner : Spawner<Grass>
         
         Grass newGrass = Pool.Get();
         _colorChanger.ChangeColor(newGrass.gameObject);
+        newGrass.gameObject.SetActive(true);
         newGrass.transform.position = spawnPosition;
+        _activeGrasses.Add(newGrass);
     }
 }

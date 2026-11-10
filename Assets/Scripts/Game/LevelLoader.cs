@@ -7,6 +7,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private Transform _levelRoot;
 
     private GameObject _currentLevel;
+    private int _currentLevelIndex;
     
     public void LoadLevel(int index)
     {
@@ -19,9 +20,16 @@ public class LevelLoader : MonoBehaviour
             _levelRoot = transform;
 
         _currentLevel = Instantiate(_levelPrefabs[index]);
+        _currentLevelIndex = index;
     }
 
-    private void UnloadLevel()
+    public void ReloadLevel()
+    {
+        UnloadLevel();
+        LoadLevel(_currentLevelIndex);
+    }
+
+    public void UnloadLevel()
     {
         if (_currentLevel == null) 
             return;

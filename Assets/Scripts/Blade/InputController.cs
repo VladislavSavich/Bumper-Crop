@@ -9,7 +9,16 @@ public class InputController : MonoBehaviour
     private void Awake()
     {
         _gameInput = new GameInput();
+    }
+
+    private void OnEnable()
+    {
         _gameInput.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _gameInput.Disable();
     }
 
     private void Update()

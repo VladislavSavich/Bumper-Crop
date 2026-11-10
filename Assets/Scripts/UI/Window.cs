@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Window : MonoBehaviour
 {
     [SerializeField] protected CanvasGroup _windowGroup;
-    [SerializeField] protected Button _actionButton;
-
-    public virtual void Close()
+    
+    public void Close()
     {
         if (_windowGroup != null)
         {
@@ -18,20 +16,15 @@ public abstract class Window : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public virtual void Open()
+    public void Open()
     {
         gameObject.SetActive(true);
 
-        if (_windowGroup != null)
-        {
-            _windowGroup.alpha = 1f;
-            _windowGroup.blocksRaycasts = true;
-            _windowGroup.interactable = true;
-        }
-
-        if (_actionButton != null)
-        {
-            _actionButton.interactable = true;
-        }
+        if (_windowGroup == null) 
+            return;
+        
+        _windowGroup.alpha = 1f;
+        _windowGroup.blocksRaycasts = true;
+        _windowGroup.interactable = true;
     }
 }

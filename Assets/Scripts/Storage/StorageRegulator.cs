@@ -6,16 +6,23 @@ public class StorageRegulator : MonoBehaviour
     [SerializeField] private Storage _firstStorage;
     [SerializeField] private Storage _secondStorage;
 
-    public event Action StoragesLoaded;
+    public event Action StorageLoaded;
 
     public void DistributeHarvest(Color color)
     {
         if (!_firstStorage.IsLoaded && color == _firstStorage.CurrentColor)
+        {
             _firstStorage.AddHarvest();
+        }
         else if (!_secondStorage.IsLoaded && color == _secondStorage.CurrentColor)
+        {
             _secondStorage.AddHarvest();
+        }
         else
-            StoragesLoaded?.Invoke();
+        {
+            StorageLoaded?.Invoke();
+            ResetStorages();
+        }
     }
 
     public void TryTransferToTruck(Truck truck)
@@ -44,11 +51,11 @@ public class StorageRegulator : MonoBehaviour
 
         int truckSpace = truck.MaxCapacity - truck.HarvestCount;
         int amountToTransfer = Mathf.Min(storage.HarvestCount, truckSpace);
+
+        if (amountToTransfer <= 0) 
+            return;
         
-        if (amountToTransfer > 0)
-        {
-            storage.ExtractHarvest(amountToTransfer);
-            truck.AcceptHarvest(amountToTransfer);
-        }
+        storage.ExtractHarvest(amountToTransfer);
+        truck.AcceptHarvest(amountToTransfer);
     }
 }

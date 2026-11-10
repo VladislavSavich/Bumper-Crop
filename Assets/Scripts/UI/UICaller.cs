@@ -5,68 +5,91 @@ public class UICaller : MonoBehaviour
 {
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private LevelSelectScreen _levelSelectScreen;
-    //[SerializeField] private EndGameScreen _loseScreen;
+    [SerializeField] private EndGameScreen _loseScreen;
     //[SerializeField] private EndGameScreen _victoryScreen;
-   
+
     public event Action<int> LevelWasSelected;
+    public event Action LevelResetButtonClicked;
+    public event Action HomeButtonClicked;
+    
 
     private void OnEnable()
     {
-        if (_startScreen != null)
-            _startScreen.PlayButtonClicked += OnPlayButtonClicked;
+        if (_startScreen == null)
+            return;
 
-        if (_levelSelectScreen != null)
-            _levelSelectScreen.LevelSelected += OnLevelSelected;
+        if (_levelSelectScreen == null)
+            return;
+
+        if (_loseScreen == null)
+            return;
+
+        _startScreen.PlayButtonClicked += OnPlayButtonClicked;
+        _levelSelectScreen.LevelSelected += OnLevelSelected;
+        _loseScreen.HomeButtonClicked += CallStartScreen;
+        _loseScreen.RetryButtonClicked += OnRetryButtonClicked;
     }
 
     private void OnDisable()
     {
-        if (_startScreen != null)
-            _startScreen.PlayButtonClicked -= OnPlayButtonClicked;
+        if (_startScreen == null)
+            return;
 
-        if (_levelSelectScreen != null)
-            _levelSelectScreen.LevelSelected -= OnLevelSelected;
+        if (_levelSelectScreen == null)
+            return;
+
+        if (_loseScreen == null)
+            return;
+
+        _startScreen.PlayButtonClicked -= OnPlayButtonClicked;
+        _levelSelectScreen.LevelSelected -= OnLevelSelected;
+        _loseScreen.HomeButtonClicked -= CallStartScreen;
+        _loseScreen.RetryButtonClicked -= OnRetryButtonClicked;
     }
 
     public void CallStartScreen()
     {
+        CloseAllScreens();
         _startScreen.Open();
-        CloseLevelSelect();
+        HomeButtonClicked?.Invoke();
     }
 
     public void CallLoseScreen()
     {
-       // _loseScreen.Open();
+        CloseAllScreens();
+        _loseScreen.Open();
     }
 
     public void CallVictoryScreen()
     {
-       // _victoryScreen.Open();
+        CloseAllScreens();
+        // _victoryScreen.Open();
     }
 
     public void CloseAllScreens()
     {
         _startScreen.Close();
-        CloseLevelSelect();
+        _levelSelectScreen.Close();
+        _loseScreen.Close();
+        // _victoryScreen.Close();
     }
 
     private void OnPlayButtonClicked()
     {
-        _startScreen.Close();
+        CloseAllScreens();
 
         if (_levelSelectScreen != null)
             _levelSelectScreen.Open();
     }
 
-    private void OnLevelSelected(int index)
+    private void OnRetryButtonClicked()
     {
-        CloseLevelSelect();
-        LevelWasSelected?.Invoke(index);
+        LevelResetButtonClicked?.Invoke();
     }
 
-    private void CloseLevelSelect()
+    private void OnLevelSelected(int index)
     {
-        if (_levelSelectScreen != null)
-            _levelSelectScreen.Close();
+        CloseAllScreens();
+        LevelWasSelected?.Invoke(index);
     }
 }

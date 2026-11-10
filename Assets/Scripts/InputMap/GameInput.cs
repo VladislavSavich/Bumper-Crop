@@ -104,7 +104,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""Keyboard"",
                     ""id"": ""0ba5bebe-7d5b-48b4-857f-23c5e04cefa3"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",

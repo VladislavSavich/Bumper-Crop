@@ -4,8 +4,13 @@ using UnityEngine;
 public class LevelSelectScreen : Window
 {
     [SerializeField] private LevelButton[] _levelButtons;
-
+    
     public event Action<int> LevelSelected;
+
+    private void Start()
+    {
+        Close();
+    }
 
     private void Awake()
     {
