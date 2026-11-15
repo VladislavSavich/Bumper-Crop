@@ -3,7 +3,6 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     [SerializeField] private UICaller _uiCaller;
-    [SerializeField] private GrassSpawner  _grassSpawner;
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private TimeSwitcher _timeSwitcher;
     [SerializeField] private HarvestDispatcher _dispatcher;
@@ -33,27 +32,23 @@ public class Game : MonoBehaviour
 
     private void OnHomePage()
     {
-        _grassSpawner.ClearAllGrass();
         _levelLoader.UnloadLevel();
         _blade.Reset();
     }
 
     private void ResetLevel()
     {
-        _blade.Reset();
-        _uiCaller.CloseAllScreens();
-        _grassSpawner.ClearAllGrass();
         _levelLoader.ReloadLevel();
-        _grassSpawner.SpawnGrassField();
+        _uiCaller.CloseAllScreens();
         _timeSwitcher.StartTime();
+        _blade.Reset();
     }
 
     private void StartGame(int levelIndex)
     {
-        _blade.Reset();
         _uiCaller.CloseAllScreens();
         _levelLoader.LoadLevel(levelIndex);
         _timeSwitcher.StartTime();
-        _grassSpawner.SpawnGrassField();
+        _blade.Reset();
     }
 }

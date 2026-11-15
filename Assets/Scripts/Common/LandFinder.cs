@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GrassFinder : MonoBehaviour
+public class LandFinder : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _radius;

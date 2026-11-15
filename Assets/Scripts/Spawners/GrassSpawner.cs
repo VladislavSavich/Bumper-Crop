@@ -6,31 +6,31 @@ public class GrassSpawner : Spawner<Grass>
 {
     [SerializeField] private ColorChanger  _colorChanger;
     [SerializeField] private Cutter _bladeCutter;
-    [SerializeField] private GrassFinder _finder;
+    [SerializeField] private LandFinder _finder;
     [SerializeField] private float _minDelay = 1f;
     [SerializeField] private float _maxDelay = 3f;
 
     private WaitForSeconds _delay;
     private Vector3 _position;
-    private List<Transform> _grassTransforms = new List<Transform>();
+    private List<Transform> _landTransforms = new List<Transform>();
     private List<Grass> _activeGrasses = new List<Grass>();
 
     public void SpawnGrassField()
     {
-        _grassTransforms.Clear();
+        _landTransforms.Clear();
         _activeGrasses.Clear();
         
-        _finder.CollectGrassPositions(_grassTransforms);
+        _finder.CollectGrassPositions(_landTransforms);
 
-        if (_grassTransforms.Capacity == 0) 
+        if (_landTransforms.Capacity == 0) 
             return;
         
-        foreach (Transform grassTransform in _grassTransforms)
+        foreach (Transform landTransform in _landTransforms)
         {
             Grass grass = Pool.Get();
             _colorChanger.ChangeColor(grass.gameObject);
             grass.gameObject.SetActive(true);
-            grass.transform.position = grassTransform.position;
+            grass.transform.position = landTransform.position;
             _activeGrasses.Add(grass);
         }
     }
@@ -49,7 +49,7 @@ public class GrassSpawner : Spawner<Grass>
             }
         }
         
-        _grassTransforms.Clear();
+        _landTransforms.Clear();
         _activeGrasses.Clear();
     }
 

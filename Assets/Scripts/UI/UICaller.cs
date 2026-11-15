@@ -6,12 +6,12 @@ public class UICaller : MonoBehaviour
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private LevelSelectScreen _levelSelectScreen;
     [SerializeField] private EndGameScreen _loseScreen;
-    //[SerializeField] private EndGameScreen _victoryScreen;
+    [SerializeField] private WinScreen _victoryScreen;
+    [SerializeField] private GameplayScreen _gameplayScreen;
 
     public event Action<int> LevelWasSelected;
     public event Action LevelResetButtonClicked;
     public event Action HomeButtonClicked;
-    
 
     private void OnEnable()
     {
@@ -24,10 +24,18 @@ public class UICaller : MonoBehaviour
         if (_loseScreen == null)
             return;
 
+        if (_victoryScreen == null)
+            return;
+
+        if (_gameplayScreen == null)
+            return;
+
         _startScreen.PlayButtonClicked += OnPlayButtonClicked;
         _levelSelectScreen.LevelSelected += OnLevelSelected;
         _loseScreen.HomeButtonClicked += CallStartScreen;
         _loseScreen.RetryButtonClicked += OnRetryButtonClicked;
+        _victoryScreen.HomeButtonClicked += CallStartScreen;
+        _gameplayScreen.HomeButtonClicked += CallStartScreen;
     }
 
     private void OnDisable()
@@ -41,10 +49,18 @@ public class UICaller : MonoBehaviour
         if (_loseScreen == null)
             return;
 
+        if (_victoryScreen == null)
+            return;
+
+        if (_gameplayScreen == null)
+            return;
+
         _startScreen.PlayButtonClicked -= OnPlayButtonClicked;
         _levelSelectScreen.LevelSelected -= OnLevelSelected;
         _loseScreen.HomeButtonClicked -= CallStartScreen;
         _loseScreen.RetryButtonClicked -= OnRetryButtonClicked;
+        _victoryScreen.HomeButtonClicked -= CallStartScreen;
+        _gameplayScreen.HomeButtonClicked -= CallStartScreen;
     }
 
     public void CallStartScreen()
@@ -63,7 +79,7 @@ public class UICaller : MonoBehaviour
     public void CallVictoryScreen()
     {
         CloseAllScreens();
-        // _victoryScreen.Open();
+        _victoryScreen.Open();
     }
 
     public void CloseAllScreens()
@@ -71,7 +87,8 @@ public class UICaller : MonoBehaviour
         _startScreen.Close();
         _levelSelectScreen.Close();
         _loseScreen.Close();
-        // _victoryScreen.Close();
+        _victoryScreen.Close();
+        _gameplayScreen.Close();
     }
 
     private void OnPlayButtonClicked()
@@ -91,5 +108,6 @@ public class UICaller : MonoBehaviour
     {
         CloseAllScreens();
         LevelWasSelected?.Invoke(index);
+        _gameplayScreen.Open();
     }
 }

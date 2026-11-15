@@ -57,6 +57,7 @@ public class BladeMover : MonoBehaviour
 
     public void Reset()
     {
+        StopMoving();
         _characterController.enabled = false;
         transform.position = _startPosition;
         transform.rotation = Quaternion.identity;

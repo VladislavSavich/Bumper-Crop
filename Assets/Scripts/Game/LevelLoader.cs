@@ -5,14 +5,14 @@ public class LevelLoader : MonoBehaviour
 {
     [SerializeField] private GameObject[] _levelPrefabs;
     [SerializeField] private Transform _levelRoot;
+    [SerializeField] private GrassSpawner _grassSpawner;
+    [SerializeField] private BonusSpawner _bonusSpawner;
 
     private GameObject _currentLevel;
     private int _currentLevelIndex;
-    
+
     public void LoadLevel(int index)
     {
-        UnloadLevel();
-
         if (_levelPrefabs == null || index < 0 || index >= _levelPrefabs.Length)
             throw new ArgumentOutOfRangeException(nameof(index), $"Индекс {index} вне диапазона для массива уровней");
 
@@ -20,6 +20,8 @@ public class LevelLoader : MonoBehaviour
             _levelRoot = transform;
 
         _currentLevel = Instantiate(_levelPrefabs[index]);
+        _grassSpawner.SpawnGrassField();
+        _bonusSpawner.SpawnDelay();
         _currentLevelIndex = index;
     }
 
@@ -34,6 +36,9 @@ public class LevelLoader : MonoBehaviour
         if (_currentLevel == null) 
             return;
         
+        _grassSpawner.ClearAllGrass();
+        _bonusSpawner.ClearAllBonus();
+        _currentLevel.SetActive(false);
         Destroy(_currentLevel);
         _currentLevel = null;
     }

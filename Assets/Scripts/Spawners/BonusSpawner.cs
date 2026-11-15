@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BonusSpawner : Spawner<Bonus>
@@ -9,25 +10,44 @@ public class BonusSpawner : Spawner<Bonus>
     
     private WaitForSeconds _delay;
     private Vector3 _position;
-
-    private void Start()
-    {
-        SpawnDelay();
-    }
+    private List<Bonus> _activeBonuses = new List<Bonus>();
     
     private void OnEnable()
     {
-        _collisionHandler.BonusDetected += ReleaseObject;
+        _collisionHandler.BonusDetected += HandleBonusRelease;
     }
 
     private void OnDisable()
     {
-        _collisionHandler.BonusDetected -= ReleaseObject;
+        _collisionHandler.BonusDetected -= HandleBonusRelease;
     }
 
-    private void SpawnDelay()
+    public void SpawnDelay()
     { 
         StartCoroutine(StartSpawnDelay());
+    }
+    
+    public void ClearAllBonus()
+    {
+        StopAllCoroutines();
+        
+        for (int i = 0; i < _activeBonuses.Count; i++)
+        {
+            Bonus bonus = _activeBonuses[i];
+            
+            if (bonus != null)
+            {
+                ReleaseObject(bonus);
+            }
+        }
+        
+        _activeBonuses.Clear();
+    }
+    
+    private void HandleBonusRelease(Bonus bonus)
+    {
+        _activeBonuses.Remove(bonus);
+        ReleaseObject(bonus);
     }
     
     private WaitForSeconds GenerateDelay()
@@ -47,6 +67,7 @@ public class BonusSpawner : Spawner<Bonus>
         
             Bonus newBonus = Pool.Get();
             newBonus.transform.position = _position;
+            _activeBonuses.Add(newBonus);
         }
     }
 }
