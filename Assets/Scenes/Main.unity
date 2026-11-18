@@ -13328,7 +13328,9 @@ MonoBehaviour:
   _levelLoader: {fileID: 7570450180476393195}
   _timeSwitcher: {fileID: 7570450180476393192}
   _dispatcher: {fileID: 1203973053880878332}
+  _truckSpawner: {fileID: 6368173094193750039}
   _blade: {fileID: 1617763465680940898}
+  _trucksRequired: 0400000006000000
 --- !u!114 &7570450180476393195
 MonoBehaviour:
   m_ObjectHideFlags: 0

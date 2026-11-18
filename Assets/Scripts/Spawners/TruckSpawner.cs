@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,8 +13,11 @@ public class TruckSpawner : Spawner<Truck>
     
     private WaitForSeconds _delay;
     
+    public event Action OnTruckDelivered;
+    
     protected override void ReleaseObject(Truck truck)
     {
+        OnTruckDelivered?.Invoke();
         truck.ResetCondition();
         truck.gameObject.SetActive(false);
         Pool.Release(truck);

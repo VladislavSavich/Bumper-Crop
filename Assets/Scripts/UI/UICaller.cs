@@ -11,7 +11,8 @@ public class UICaller : MonoBehaviour
 
     public event Action<int> LevelWasSelected;
     public event Action LevelResetButtonClicked;
-    public event Action HomeButtonClicked;
+    public event Action StartScreenOpened;
+    public event Action NextLevelButtonClicked;
 
     private void OnEnable()
     {
@@ -35,6 +36,7 @@ public class UICaller : MonoBehaviour
         _loseScreen.HomeButtonClicked += CallStartScreen;
         _loseScreen.RetryButtonClicked += OnRetryButtonClicked;
         _victoryScreen.HomeButtonClicked += CallStartScreen;
+        _victoryScreen.NextButtonClicked += CallNextLevel;
         _gameplayScreen.HomeButtonClicked += CallStartScreen;
     }
 
@@ -60,6 +62,7 @@ public class UICaller : MonoBehaviour
         _loseScreen.HomeButtonClicked -= CallStartScreen;
         _loseScreen.RetryButtonClicked -= OnRetryButtonClicked;
         _victoryScreen.HomeButtonClicked -= CallStartScreen;
+        _victoryScreen.NextButtonClicked -= CallNextLevel;
         _gameplayScreen.HomeButtonClicked -= CallStartScreen;
     }
 
@@ -67,7 +70,7 @@ public class UICaller : MonoBehaviour
     {
         CloseAllScreens();
         _startScreen.Open();
-        HomeButtonClicked?.Invoke();
+        StartScreenOpened?.Invoke();
     }
 
     public void CallLoseScreen()
@@ -91,6 +94,12 @@ public class UICaller : MonoBehaviour
         _gameplayScreen.Close();
     }
 
+    private void CallNextLevel()
+    {
+        CloseAllScreens();
+        NextLevelButtonClicked?.Invoke();
+    }
+
     private void OnPlayButtonClicked()
     {
         CloseAllScreens();
@@ -101,6 +110,7 @@ public class UICaller : MonoBehaviour
 
     private void OnRetryButtonClicked()
     {
+        CloseAllScreens();
         LevelResetButtonClicked?.Invoke();
     }
 

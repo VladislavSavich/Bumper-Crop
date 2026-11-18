@@ -9,7 +9,8 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private BonusSpawner _bonusSpawner;
 
     private GameObject _currentLevel;
-    private int _currentLevelIndex;
+    
+    public int CurrentLevelIndex { get; private set; }
 
     public void LoadLevel(int index)
     {
@@ -22,13 +23,20 @@ public class LevelLoader : MonoBehaviour
         _currentLevel = Instantiate(_levelPrefabs[index]);
         _grassSpawner.SpawnGrassField();
         _bonusSpawner.SpawnDelay();
-        _currentLevelIndex = index;
+        CurrentLevelIndex = index;
+    }
+    
+    public bool TryLoadNextLevel()
+    {
+        CurrentLevelIndex++;
+        
+        return CurrentLevelIndex < _levelPrefabs.Length;
     }
 
     public void ReloadLevel()
     {
         UnloadLevel();
-        LoadLevel(_currentLevelIndex);
+        LoadLevel(CurrentLevelIndex);
     }
 
     public void UnloadLevel()
