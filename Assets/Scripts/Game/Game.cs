@@ -10,6 +10,8 @@ public class Game : MonoBehaviour
     [SerializeField] private Blade _blade;
     [SerializeField] private int[] _trucksRequired;
 
+    public int CurrentTargetTrucks { get; private set; }
+    
     private int _deliveredTrucksCount;
 
     private void OnEnable()
@@ -53,9 +55,10 @@ public class Game : MonoBehaviour
 
     private void CheckVictory()
     {
-        int target = _trucksRequired[_levelLoader.CurrentLevelIndex];
-
-        if (_deliveredTrucksCount >= target)
+        CurrentTargetTrucks = _trucksRequired[_levelLoader.CurrentLevelIndex];
+        _uiCaller.UpdateWinScore(_deliveredTrucksCount,  CurrentTargetTrucks);
+        
+        if (_deliveredTrucksCount >= CurrentTargetTrucks)
             OnVictory();
     }
 
@@ -70,6 +73,9 @@ public class Game : MonoBehaviour
             _deliveredTrucksCount = 0;
             _levelLoader.UnloadLevel();
             _levelLoader.LoadLevel(_levelLoader.CurrentLevelIndex);
+            _uiCaller.CallGameplayScreen();
+            CurrentTargetTrucks = _trucksRequired[_levelLoader.CurrentLevelIndex];
+            _uiCaller.UpdateWinScore(_deliveredTrucksCount,  CurrentTargetTrucks);
             _timeSwitcher.StartTime();
             _blade.Reset();
         }
@@ -86,6 +92,9 @@ public class Game : MonoBehaviour
     {
         _deliveredTrucksCount = 0;
         _levelLoader.ReloadLevel();
+        CurrentTargetTrucks = _trucksRequired[_levelLoader.CurrentLevelIndex];
+        _uiCaller.UpdateWinScore(_deliveredTrucksCount,  CurrentTargetTrucks);
+        _uiCaller.CallGameplayScreen();
         _timeSwitcher.StartTime();
         _blade.Reset();
     }
@@ -94,6 +103,8 @@ public class Game : MonoBehaviour
     {
         _deliveredTrucksCount = 0;
         _levelLoader.LoadLevel(levelIndex);
+        CurrentTargetTrucks = _trucksRequired[_levelLoader.CurrentLevelIndex];
+        _uiCaller.UpdateWinScore(_deliveredTrucksCount,  CurrentTargetTrucks);
         _timeSwitcher.StartTime();
         _blade.Reset();
     }

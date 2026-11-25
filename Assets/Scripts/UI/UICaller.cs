@@ -8,12 +8,15 @@ public class UICaller : MonoBehaviour
     [SerializeField] private EndGameScreen _loseScreen;
     [SerializeField] private WinScreen _victoryScreen;
     [SerializeField] private GameplayScreen _gameplayScreen;
+    [SerializeField] private TutorialScreen _tutorialScreen;
 
     public event Action<int> LevelWasSelected;
     public event Action LevelResetButtonClicked;
     public event Action StartScreenOpened;
     public event Action NextLevelButtonClicked;
 
+    private int _tutorialLevelIndex = 0;
+    
     private void OnEnable()
     {
         if (_startScreen == null)
@@ -29,6 +32,9 @@ public class UICaller : MonoBehaviour
             return;
 
         if (_gameplayScreen == null)
+            return;
+        
+        if(_tutorialScreen == null)
             return;
 
         _startScreen.PlayButtonClicked += OnPlayButtonClicked;
@@ -57,6 +63,9 @@ public class UICaller : MonoBehaviour
         if (_gameplayScreen == null)
             return;
 
+        if(_tutorialScreen == null)
+            return;
+        
         _startScreen.PlayButtonClicked -= OnPlayButtonClicked;
         _levelSelectScreen.LevelSelected -= OnLevelSelected;
         _loseScreen.HomeButtonClicked -= CallStartScreen;
@@ -85,6 +94,16 @@ public class UICaller : MonoBehaviour
         _victoryScreen.Open();
     }
 
+    public void CallGameplayScreen()
+    {
+        _gameplayScreen.Open();
+    }
+
+    public void UpdateWinScore(int value, int targetValue)
+    {
+        _gameplayScreen.UpdateView(value, targetValue);
+    }
+
     public void CloseAllScreens()
     {
         _startScreen.Close();
@@ -92,6 +111,7 @@ public class UICaller : MonoBehaviour
         _loseScreen.Close();
         _victoryScreen.Close();
         _gameplayScreen.Close();
+        _tutorialScreen.Close();
     }
 
     private void CallNextLevel()
@@ -118,6 +138,10 @@ public class UICaller : MonoBehaviour
     {
         CloseAllScreens();
         LevelWasSelected?.Invoke(index);
-        _gameplayScreen.Open();
+        
+        if(index == _tutorialLevelIndex)
+            _tutorialScreen.Open();
+
+        CallGameplayScreen();
     }
 }
